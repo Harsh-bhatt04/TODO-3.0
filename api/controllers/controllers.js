@@ -64,6 +64,14 @@ const viewAllTasks = async (req, res) => {
 
 const deleteTask = async (req, res) => {
     // Your delete logic here
+    try{
+        const {taskId}=req.params;
+        // const isTrue = await priorityCheck(taskId);        
+          res.status(200).json({status:200,message:"Task can be deleted"})
+        
+      }catch(error){
+        console.error(error)
+      }
 };
 
 export {
