@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import Navigation from '../components/Navigation';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 function ViewTask() {
   const [task,setTask] = useState({tId:null,name:null,date:null})
@@ -10,7 +11,7 @@ function ViewTask() {
     try{
       e.preventDefault()
       const taskID = document.querySelector("#taskID").value
-      const res = await fetch(`http://localhost:3000/api/ethereum/view-task/${taskID}`,{
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/view-task/${taskID}`,{
         method:"GET",
         headers:{
           "content-type":"application/json"

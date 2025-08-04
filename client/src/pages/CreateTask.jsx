@@ -82,6 +82,7 @@
 
 import { useState } from 'react';
 import Navigation from '../components/Navigation';
+export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS;
 
 function CreateTask({state}) {
 
@@ -95,11 +96,12 @@ function CreateTask({state}) {
 
   const CreateTask = async(e)=>{
     e.preventDefault();
+    
     const {contract,account} = state
     const taskName = document.querySelector("#taskName").value
     const taskDate = document.querySelector('#taskDate').value
     try{
-      const res = await fetch("http://localhost:3000/api/ethereum/create-task",{
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/create-task`,{
         method: "post",
         headers:{
           "content-type":"application/json"
@@ -120,7 +122,7 @@ function CreateTask({state}) {
         setModalContent("Task cannot be added.");
       }
     }catch(err){
-      setModalContent(`Task already exists at ${taskDate}`);
+      setModalContent(`MetaMask issue`);
     }finally {
       setModalOpen(true);
     }

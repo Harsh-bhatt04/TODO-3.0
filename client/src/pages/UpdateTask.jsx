@@ -83,9 +83,9 @@
 
 // export default UpdateTask
 
-import React from 'react'
 import Navigation from '../components/Navigation';
 import { useState } from 'react';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 function UpdateTask({state}) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -108,7 +108,7 @@ function UpdateTask({state}) {
     const taskDate = document.querySelector('#taskDate').value
 
     try{
-      const res = await fetch("http://localhost:3000/api/ethereum/update-task",{
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/update-task`,{
         method: "post",
         headers:{
           "content-type":"application/json"

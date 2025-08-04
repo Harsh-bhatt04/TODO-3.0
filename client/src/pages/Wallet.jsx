@@ -14,9 +14,10 @@ function Wallet({saveState}) {
         method: "eth_requestAccounts"
       });
 
-      const contractAddress = "0xa062FD2423BE71323787AbF2231d570389020623"
+      const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS
+      // console.log(contractAddress)
 const contract = new web3.eth.Contract(ABI,contractAddress)
-      console.log(contract)
+      // console.log(contract)
       saveState({web3: web3,contract:contract,account:accounts[0]})
       navigateTo('/create-task')
       }

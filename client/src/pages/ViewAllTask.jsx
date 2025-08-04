@@ -54,16 +54,18 @@
 
 // export default ViewAllTask
 
-import React from 'react'
 import Navigation from '../components/Navigation';
 import { useState,useEffect } from 'react'
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
 function ViewAllTask() {
   const [taskList, setTaskList] = useState([]);
 
   useEffect(() => {
     const allTask = async () => {
       try {
-        const res = await fetch("http://localhost:3000/api/ethereum/view-all-task", {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/view-all-task`, {
           method: "GET",
           headers: {
             "content-type": "application/json",
