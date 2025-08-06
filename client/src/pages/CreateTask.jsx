@@ -1,85 +1,3 @@
-// import { useState } from 'react';
-// import Navigation from '../components/Navigation';
-
-// function CreateTask({state}) {
-
-//   const [modalOpen, setModalOpen] = useState(false);
-//     const [modalContent, setModalContent] = useState("");
-
-//     const closeModal = () => {
-//         setModalOpen(false);
-//         setModalContent("");
-//       };
-
-
-
-//   const CreateTask = async(e)=>{
-//     e.preventDefault();
-//     const {contract,account} = state
-//     const taskName = document.querySelector("#taskName").value
-//     const taskDate = document.querySelector('#taskDate').value
-//     //sending to the server to reduce the cost 
-//     //check basic details on the server and then check it
-//     try{
-//       const res = await fetch("http://localhost:3000/api/ethereum/create-task",{
-//         method: "post",
-//         headers:{
-//           "content-type":"application/json"
-//         },
-//         body: JSON.stringify({taskDate:taskDate})
-//       })  
-//       // console.log(account)
-//             const data = await res.json()
-//             console.log(data)
-//             if(data.status===200){
-//                 if(contract && contract.methods){
-//                     await contract.methods
-//                     .createTask(taskName,taskDate)
-//                     .send({from:account})
-//                     setModalContent(`Task ${taskName} added at ${taskDate}`);
-//                 }
-//             }else{
-//                 // alert("Task cannot be added")
-//             }
-//     }catch(err){
-//       setModalContent(`Task already exists at ${taskDate}`);
-//     }finally {
-//             setModalOpen(true);
-//     }
-
-//   }
-//   return (
-//     <div >
-//       <Navigation />
-//       <form onSubmit={CreateTask}>
-//         <label >
-//           Name:
-//           <input type="text" id='taskName' />
-//         </label>
-//         <label >
-//           Date:
-//           <input id='taskDate' />
-//         </label>
-//         <button type='submit' className=''>Create Task</button>
-//       </form>
-//       {modalOpen && (
-//               <div className="modal">
-//                 <div className="modal-content">
-//                   <span className="close" onClick={closeModal}>
-//                     &times;
-//                   </span>
-//                   <p>{modalContent}</p>
-//                 </div>
-//               </div>
-//         )}
-//     </div>
-//   )
-// }
-
-// export default CreateTask
-
-
-
 import { useState } from 'react';
 import Navigation from '../components/Navigation';
 export const CONTRACT_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS;
@@ -176,7 +94,7 @@ function CreateTask({state}) {
             </div>
           </div>
         )}
-      {/* </div> */}
+      
     </>
   )
 }
