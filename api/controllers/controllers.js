@@ -62,16 +62,23 @@ const viewAllTasks = async (req, res) => {
     }
 };
 
+
 const deleteTask = async (req, res) => {
-    // Your delete logic here
-    try{
-        const {taskId}=req.params;
-        // const isTrue = await priorityCheck(taskId);        
-          res.status(200).json({status:200,message:"Task can be deleted"})
+    try {
+        console.log("issue");
+        const { taskId } = req.params;
+        console.log(taskId);
+        const task = await contract.methods.viewTask(taskId).call();
         
-      }catch(error){
-        console.error(error)
-      }
+             res.status(200).json({ status: 200, message: "Task can be deleted" });
+       
+
+             
+        
+    } catch (error) {
+        console.error("Error checking if task can be deleted:", error);
+        res.status(404).json({ status: 404, message: "Task does not exist, cannot be deleted" });
+    }
 };
 
 export {
