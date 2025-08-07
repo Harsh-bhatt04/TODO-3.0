@@ -1,6 +1,6 @@
 
 import Navigation from '../components/Navigation';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 function UpdateTask({state}) {
@@ -13,16 +13,20 @@ function UpdateTask({state}) {
     };
 
 
+   const taskIDref = useRef();
+   const taskNameref = useRef();
+   const taskDateref = useRef();
 
   const {contract,account} = state
 
   const updateTask = async(e)=>{
 
     e.preventDefault()
-    const taskID = document.querySelector('#taskID').value
-    const taskName = document.querySelector('#taskName').value
-    const taskDate = document.querySelector('#taskDate').value
+    const taskID = taskIDref.current.value;
+    const taskName = taskNameref.current.value;
+    const taskDate = taskDateref.current.value;
 
+    
     try{
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/update-task`,{
         method: "post",
@@ -36,15 +40,24 @@ function UpdateTask({state}) {
       console.log(data);
       
       if(data.status == 200){
-        await contract.method.updateTask(taskID,taskName,taskDate).send({from:account})
+        await contract.methods.updateTask(taskID,taskName,taskDate).send({from:account})
 
         setModalContent(
               `Task ID ${taskID} updated with task name ${taskName} and date ${taskDate}`
             );
             setModalVisible(true);
       }
+      else if(data.status === 409){
+        setModalContent(
+              `Task ID ${taskID} cannot be updated because of date clash`
+            );
+            setModalVisible(true);
+
+      }
       
     }catch(err){
+      console.log(err);
+      
         setModalContent("Task cannot be updated");
           setModalVisible(true);
       }
@@ -53,20 +66,20 @@ function UpdateTask({state}) {
   return (
     <>
       <Navigation />
-      <div className="max-w-md mx-auto mt-15 bg-gray-900 rounded-lg shadow-lg p-8">
+      <div className="max-w-md mx-auto mt-16 bg-gray-900 rounded-lg shadow-lg p-8">
         <h2 className="text-2xl font-bold mb-6 text-gray-100 text-center">Update Task</h2>
         <form onSubmit={updateTask} className="space-y-5">
           <div>
             <label htmlFor="taskID" className="block text-l font-medium text-gray-300 mb-1" >ID:</label>
-            <input id="taskID" className="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter ID to update with"/>
+            <input id="taskID" ref={taskIDref} className="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter ID to update with"/>
           </div>
           <div>
             <label htmlFor="taskName" className="block text-l font-medium text-gray-300 mb-1">Name:</label>
-            <input id="taskName" className="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter updated name" />
+            <input id="taskName" ref={taskNameref} className="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter updated name" />
           </div>
           <div>
             <label htmlFor="taskDate" className="block text-l font-medium text-gray-300 mb-1">Date:</label>
-            <input id="taskDate" type="text" className="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter date"/>
+            <input id="taskDate" ref={taskDateref} type="text" className="w-full px-3 py-2 border border-gray-700 bg-gray-800 text-gray-100 rounded focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter date"/>
           </div>
           <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Update Task</button>
         </form>

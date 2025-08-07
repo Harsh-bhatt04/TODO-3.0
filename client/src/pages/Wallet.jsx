@@ -1,8 +1,7 @@
-import React from 'react'
+
 import ABI from './ABI.json'
 import { useNavigate } from 'react-router-dom'
 import {Web3} from 'web3'
-import Navigation from '../components/Navigation';
 
 function Wallet({saveState}) {
   const navigateTo = useNavigate()
